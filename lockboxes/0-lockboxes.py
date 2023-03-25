@@ -18,4 +18,7 @@ def canUnlockAll(boxes):
         # Remove any keys for boxes that have already been unlocked
         new_keys -= unlocked_boxes
     # If all boxes are unlocked, return True
-    return len(unlocked_boxes) == num_boxes
+    if len(unlocked_boxes) == num_boxes:
+        return True
+    else:
+        return False
