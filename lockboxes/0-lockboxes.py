@@ -5,22 +5,33 @@ Method that determines if all the boxes can be opened.
 
 
 def canUnlockAll(boxes):
-    num_boxes = len(boxes)
-    unlocked_boxes = set([0])  # start with the first box unlocked
-    new_keys = set(boxes[0])  # keys in the first box
-    while new_keys:
-        # Add any new unlocked boxes to the set
-        unlocked_boxes |= new_keys
-        # Find keys in newly unlocked boxes
-        next_keys = set()
-        for box in new_keys:
-            if box < num_boxes:
-                next_keys |= set(boxes[box])
-        # Remove any keys for boxes that have already been unlocked
-        next_keys -= unlocked_boxes
-        # If all boxes are unlocked, return True
-        if len(unlocked_boxes) == num_boxes:
-            return True
-        new_keys = next_keys
-    # If not all boxes are unlocked, return False
-    return False
+    """
+    Check if all boxes can be unlocked starting from the first box (index 0)
+    and using the keys contained in the boxes.
+
+    Args:
+        boxes (list of lists): The list of boxes, where each box
+        is a list of integers representing
+        the keys it contains.
+
+    Returns:
+        bool: True if all boxes can be unlocked, False otherwise.
+    """
+    # Keep track of the unlocked boxes, starting with the first box (index 0)
+    unlocked_boxes = [0]
+    # Iterate over the boxes
+    for i, box in enumerate(boxes):
+        # If the current box is already unlocked or it doesn't contain
+        # any key, continue to the next box
+        if i in unlocked_boxes or not box:
+            continue
+        # Iterate over the keys in the current box
+        for key in box:
+            # If the key opens a valid box (i.e., its index is
+            # within the range of boxes and it's not
+            # the current box), and the box hasn't been unlocked yet,
+            # add it to the unlocked boxes
+            if key < len(boxes) and key != i and key not in unlocked_boxes:
+                unlocked_boxes.append(key)
+    # Check if all boxes have been unlocked
+    return len(unlocked_boxes) == len(boxes)
