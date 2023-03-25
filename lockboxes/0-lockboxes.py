@@ -14,7 +14,8 @@ def canUnlockAll(boxes):
         # Find keys in newly unlocked boxes
         next_keys = set()
         for box in new_keys:
-            next_keys |= set(boxes[box])
+            if box < num_boxes:
+                next_keys |= set(boxes[box])
         # Remove any keys for boxes that have already been unlocked
         next_keys -= unlocked_boxes
         # If all boxes are unlocked, return True
