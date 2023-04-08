@@ -1,41 +1,40 @@
+#ifndef _BINARY_TREES_H_
+#define _BINARY_TREES_H_
+
+#include <stddef.h>
 #include <stdlib.h>
-#include "binary_trees.h"
+#include <stdio.h>
 
 /**
- * _binary_tree_delete - Deallocate a binary tree
+ * struct binary_tree_s - Binary tree node
  *
- * @tree: Pointer to the root of the tree to delete
+ * @n: Integer stored in the node
+ * @parent: Pointer to the parent node
+ * @left: Pointer to the left child node
+ * @right: Pointer to the right child node
  */
-static void _binary_tree_delete(binary_tree_t *tree)
+typedef struct binary_tree_s
 {
-    if (tree)
-    {
-        _binary_tree_delete(tree->left);
-        _binary_tree_delete(tree->right);
-        free(tree);
-    }
-}
+	int n;
+	struct binary_tree_s *parent;
+	struct binary_tree_s *left;
+	struct binary_tree_s *right;
+} binary_tree_t;
 
-/**
- * main - Entry point
- *
- * Return: Always 0 (Success)
- */
-int main(void)
-{
-    binary_tree_t *root;
+void binary_tree_print(const binary_tree_t *);
 
-    root = binary_tree_node(NULL, 98);
+/* Max binary heap */
+typedef struct binary_tree_s heap_t;
 
-    root->left = binary_tree_node(root, 12);
-    root->left->left = binary_tree_node(root->left, 6);
-    root->left->right = binary_tree_node(root->left, 16);
+/* create a new node prototype */
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 
-    root->right = binary_tree_node(root, 402);
-    root->right->left = binary_tree_node(root->right, 256);
-    root->right->right = binary_tree_node(root->right, 512);
+/* insert value into max binary heap */
+heap_t *heap_insert(heap_t **root, int value);
 
-    binary_tree_print(root);
-    _binary_tree_delete(root);
-    return (0);
-}
+
+/* size of a binary tree */
+size_t binary_tree_size(const binary_tree_t *tree);
+
+
+#endif /* _BINARY_TREES_H_ */
