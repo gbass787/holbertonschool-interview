@@ -17,12 +17,17 @@ def minOperations(n):
     if n <= 0:
         return 0
 
-    ops = [0] * (n + 1)
+    ops = 0
+    div = 2
 
-    for i in range(2, n + 1):
-        ops[i] = float('inf')
-        for j in range(1, i):
-            if i % j == 0:
-                ops[i] = min(ops[i], ops[j] + i // j)
+    while n > 1:
+        while n % div == 0:
+            ops += div
+            n //= div
+        div += 1
+        if div * div > n:
+            if n > 1:
+                ops += n
+            break
 
-    return ops[n] if ops[n] != float('inf') else 0
+    return ops
