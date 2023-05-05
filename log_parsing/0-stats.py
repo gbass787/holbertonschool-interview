@@ -25,13 +25,17 @@ line_pattern = re.compile(
     r' HTTP/1.1" (?P<status_code>\d{3}) (?P<file_size>\d+)$'
 )
 
+valid_status_codes = {200, 301, 400, 401, 403, 404, 405, 500}
 line_count = 0
 for line in sys.stdin:
     match = line_pattern.match(line.strip())  # Remove any leading/trailing
     if match:
-        total_file_size += int(match.group("file_size"))
-        status_codes[int(match.group("status_code"))] += 1
-        line_count += 1
+        status_code = int(match.group("status_code"))
+        # Check if status code is valid before processing
+        if status_code in valid_status_codes:
+            total_file_size += int(match.group("file_size"))
+            status_codes[status_code] += 1
+            line_count += 1
 
     if line_count % 10 == 0:
         print_statistics(total_file_size, status_codes)
