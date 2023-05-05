@@ -27,7 +27,7 @@ line_pattern = re.compile(
 
 line_count = 0
 for line in sys.stdin:
-    match = line_pattern.match(line)
+    match = line_pattern.match(line.strip())  # Remove any leading/trailing
     if match:
         total_file_size += int(match.group("file_size"))
         status_codes[int(match.group("status_code"))] += 1
